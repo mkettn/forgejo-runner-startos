@@ -1,6 +1,7 @@
 import { i18n } from '../i18n'
 import { sdk } from '../sdk'
 import { storeJson } from '../fileModels/store.json'
+import { DEFAULT_FORGEJO_URL } from '../utils'
 
 const { InputSpec, Value } = sdk
 
@@ -8,10 +9,10 @@ const inputSpec = InputSpec.of({
   instanceUrl: Value.text({
     name: i18n('Forgejo URL'),
     description: i18n(
-      'The address of your Forgejo instance, for example https://git.example.com. It must be reachable from this device.',
+      'The address of your Forgejo instance, for example https://git.example.com. The default, http://forgejo.startos:3000, reaches the Forgejo package installed on this device.',
     ),
     required: true,
-    default: null,
+    default: DEFAULT_FORGEJO_URL,
     inputmode: 'url',
     patterns: [
       {
@@ -82,7 +83,7 @@ export const configure = sdk.Action.withInput(
     const s = await storeJson.read().once()
     if (!s) return null
     return {
-      instanceUrl: s.instanceUrl || undefined,
+      instanceUrl: s.instanceUrl,
       runnerUuid: s.runnerUuid || undefined,
       runnerToken: s.runnerToken || undefined,
       labels: s.labels,
@@ -93,7 +94,7 @@ export const configure = sdk.Action.withInput(
 
   async ({ effects, input }) => {
     await storeJson.merge(effects, {
-      instanceUrl: (input.instanceUrl ?? '').trim().replace(/\/+$/, ''),
+      instanceUrl: (input.instanceUrl ?? '').replace(/\/+$/, ''),
       runnerUuid: input.runnerUuid ?? '',
       runnerToken: input.runnerToken ?? '',
       labels: input.labels ?? '',

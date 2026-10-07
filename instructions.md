@@ -10,10 +10,10 @@ A CI/CD runner that executes Forgejo Actions workflows for **your own Forgejo in
 
 ## Getting set up
 
-This runner connects to any Forgejo instance you can reach from this device. Forgejo Actions must be enabled on it (the default).
+This runner connects to any Forgejo instance you can reach from this device. Forgejo Actions must be enabled on it (the default). If you point at another instance, use plain HTTP or a publicly trusted HTTPS certificate — job containers do not trust self-signed ones.
 
 1. In Forgejo, go to **Site / Organization / Repository Settings → Actions → Runners → Create new Runner**. Copy the **UUID** and the **token** it shows you.
-2. Run the **Configure** action here, enter your Forgejo's URL (for example `https://git.example.com`), and paste in the UUID and token. Adjust the labels and concurrent-jobs count if you like — the default `ubuntu-latest` label runs jobs in a standard Ubuntu image.
+2. Run the **Configure** action here, leave the Forgejo URL at its default (`http://forgejo.startos:3000`, the Forgejo on this device) or enter another instance's address (for example `https://git.example.com`), and paste in the UUID and token. Adjust the labels and concurrent-jobs count if you like — the default `ubuntu-latest` label runs jobs in a standard Ubuntu image.
 3. Start (or restart) the service. It connects to Forgejo and begins picking up jobs; it should appear as **Online** in Forgejo's Runners.
 
 > Forgejo v12 replaced the old single-use registration token with durable runner credentials, so the UUID + token you paste here keep working — there is nothing to refresh between restarts.

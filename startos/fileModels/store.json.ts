@@ -1,10 +1,11 @@
 import { FileHelper, z } from '@start9labs/start-sdk'
 import { sdk } from '../sdk'
+import { DEFAULT_FORGEJO_URL } from '../utils'
 
 const shape = z
   .object({
     // Address of the user's own Forgejo, e.g. https://git.example.com.
-    instanceUrl: z.string().catch(''),
+    instanceUrl: z.string().catch(DEFAULT_FORGEJO_URL),
     // Forgejo v12 connection-model credentials: the runner UUID + token shown on
     // the "Create new Runner" screen. These are declared into config.yaml's
     // server.connections block by the entrypoint — `register` is deprecated.

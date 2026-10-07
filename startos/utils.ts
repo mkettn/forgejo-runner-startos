@@ -10,6 +10,11 @@ import { sdk } from './sdk'
 export const MIN_MEMORY_BYTES = 1.5 * 1024 ** 3
 export const MIN_CPU_CORES = 2
 
+// ---- Forgejo ----
+// Default forge address: the Forgejo package's HTTP port on its StartOS
+// hostname, so installing alongside it needs no configuration.
+export const DEFAULT_FORGEJO_URL = 'http://forgejo.startos:3000'
+
 // ---- Emulation ----
 // Image advertised by the "Enable Emulation" toggle, pinned to the foreign
 // platform (via forgejo-runner's `?platform=` label option) so its jobs run

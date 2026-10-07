@@ -22,7 +22,7 @@ const dict = {
   'Runner configuration saved. Restart the service to apply.': 18,
   'Forgejo URL': 19,
   'The runner is not running': 20,
-  'The address of your Forgejo instance, for example https://git.example.com. It must be reachable from this device.': 21,
+  'The address of your Forgejo instance, for example https://git.example.com. The default, http://forgejo.startos:3000, reaches the Forgejo package installed on this device.': 21,
   'Forgejo no longer recognizes this runner. Create a new runner in Forgejo, enter its UUID and token in the Configure action, then restart this service.': 22,
   'Must start with http:// or https://': 23,
 }

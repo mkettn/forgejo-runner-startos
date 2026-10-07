@@ -80,7 +80,7 @@ The one value the package composes rather than passes through is the label list.
 
 ## Dependencies
 
-None. The runner connects to whichever Forgejo instance you enter as `instanceUrl` in Configure — the Forgejo package on this device (use an address reachable from this service), or any other. Forgejo Actions must be enabled on that instance; this package cannot enforce that.
+None. The runner connects to whichever Forgejo instance you enter as `instanceUrl` in Configure — defaulting to `http://forgejo.startos:3000`, the Forgejo package's HTTP port on its StartOS hostname (assumed to resolve from this service; not verified on a device) — or any other. A store with no URL (including existing installs) reads as that default, so same-device users need no change. For other instances prefer a plain-HTTP or publicly trusted HTTPS address: a self-signed certificate, as on a `.local` or Tor address, is not trusted by job containers. Forgejo Actions must be enabled on that instance; this package cannot enforce that.
 
 If the instance is unreachable, the runner daemon fails to connect and the Runner health check reports it; nothing is resolved or gated by StartOS.
 
@@ -97,7 +97,7 @@ Two gates apply before that, both enforced rather than advisory:
 1. **Hardware.** `main` refuses to start on a device below 2 CPU cores or roughly a 4 GB machine's worth of memory, because every job is a full build. The message says so explicitly rather than failing obscurely later.
 2. **Forgejo.** Your instance must be reachable from this device.
 
-Then run [Configure](#actions) with your Forgejo's URL and the UUID and token it shows under **Settings → Actions → Runners → Create new Runner**, and restart. Until then the runner's health check reports a failure telling you to do exactly that.
+Then run [Configure](#actions) with your Forgejo's URL and the UUID and token it shows under **Settings → Actions → Runners → Create new Runner**, and restart. Until then the runner's health check reports a failure telling you to do exactly that. The URL defaults to the Forgejo on this device; change it only for another instance.
 
 ## Actions
 
@@ -116,13 +116,12 @@ Connects the runner to Forgejo and sets how it advertises itself.
 
 None. The service is never held on a prompt and its ordinary controls are always available.
 
-
 ## Health Checks
 
 One check, on the `primary` daemon.
 
-| Check              | Method                                                                                                  | Grace Period |
-| ------------------ | ------------------------------------------------------------------------------------------------------- | ------------ |
+| Check              | Method                                                                                                          | Grace Period |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- | ------------ |
 | `primary` "Runner" | URL and credentials set and not rejected by Forgejo, then the runner process alive and the Podman API answering | 60 seconds   |
 
 Without a URL and credentials it fails and names the action to run. It fails the same way while `runner/rejected-uuid` holds the configured UUID: the entrypoint writes it when Forgejo answers `unregistered runner` (its database no longer holds that runner, as after Forgejo is reinstalled), then idles instead of exiting, so the service waits for new credentials rather than restarting in a loop. Saving a different UUID clears it on the next start. With valid credentials it runs a script in the service container every 30 seconds: a `forgejo-runner` process must appear in `/proc`, and `podman --remote info` must succeed against the API socket the runner drives. Both have to hold — the runner exits when the engine is unreachable, and an engine with no runner behind it serves nothing. Whether Forgejo is currently handing it jobs is visible in Forgejo, not here.
@@ -136,7 +135,7 @@ The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')`. No du
 
 ## Limitations and Differences
 
-1. **You supply the Forgejo URL.** There is no automatic discovery of a Forgejo on this device, and no check that Actions is enabled there.
+1. **You supply the Forgejo URL.** The default assumes the Forgejo package on this device; there is no other discovery, and no check that Actions is enabled there.
 2. **Configuration applies on restart**, not immediately.
 3. **The service refuses to start on small hardware** — under 2 cores or roughly a 4 GB machine.
 4. **Emulated jobs are much slower than native.** The toggle exists for occasional cross-architecture work; a native runner per architecture is the better arrangement for regular builds.
