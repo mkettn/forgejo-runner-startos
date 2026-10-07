@@ -1,18 +1,18 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '13.2.0:2',
+  version: '13.2.0:3',
   releaseNotes: {
     en_US:
-      'If Forgejo no longer recognizes the runner, for example after Forgejo is reinstalled, the Runner health check asks you to create a new runner in Forgejo and enter its UUID and token in Configure.',
+      'Forgejo Runner no longer depends on the Forgejo package, so it can serve any Forgejo instance. It connects to the Forgejo package on this device by default; to use another instance, enter its URL in Configure and restart.',
     es_ES:
-      'Si Forgejo ya no reconoce el ejecutor, por ejemplo tras reinstalar Forgejo, la comprobación de estado Runner le pide crear un nuevo ejecutor en Forgejo e introducir su UUID y su token en Configurar.',
+      'Forgejo Runner ya no depende del paquete Forgejo, por lo que puede atender a cualquier instancia de Forgejo. De forma predeterminada se conecta al paquete Forgejo de este dispositivo; para usar otra instancia, introduzca su URL en Configurar y reinicie.',
     de_DE:
-      'Erkennt Forgejo den Runner nicht mehr, etwa nach einer Neuinstallation von Forgejo, fordert die Integritätsprüfung Runner Sie auf, in Forgejo einen neuen Runner zu erstellen und dessen UUID und Token in „Konfigurieren“ einzugeben.',
+      'Forgejo Runner hängt nicht mehr vom Forgejo-Paket ab und kann daher jede Forgejo-Instanz bedienen. Standardmäßig verbindet er sich mit dem Forgejo-Paket auf diesem Gerät; für eine andere Instanz geben Sie deren URL unter „Konfigurieren“ ein und starten Sie neu.',
     pl_PL:
-      'Jeśli Forgejo przestanie rozpoznawać runnera, na przykład po ponownej instalacji Forgejo, kontrola stanu Runner poprosi o utworzenie nowego runnera w Forgejo i wpisanie jego UUID i tokenu w Konfiguruj.',
+      'Forgejo Runner nie zależy już od pakietu Forgejo, więc może obsługiwać dowolną instancję Forgejo. Domyślnie łączy się z pakietem Forgejo na tym urządzeniu; aby użyć innej instancji, wpisz jej adres URL w Konfiguruj i uruchom usługę ponownie.',
     fr_FR:
-      "Si Forgejo ne reconnaît plus l'exécuteur, par exemple après une réinstallation de Forgejo, la vérification d'état Runner vous demande de créer un nouvel exécuteur dans Forgejo et de saisir son UUID et son jeton dans Configurer.",
+      "Forgejo Runner ne dépend plus du paquet Forgejo et peut donc servir n'importe quelle instance Forgejo. Par défaut, il se connecte au paquet Forgejo de cet appareil ; pour une autre instance, saisissez son URL dans Configurer, puis redémarrez.",
   },
   migrations: {
     up: async () => {},

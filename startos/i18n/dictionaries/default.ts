@@ -17,13 +17,14 @@ const dict = {
   'Enable Emulation': 13,
   'Also serve jobs for the other CPU architecture, run under emulation (much slower than native). Appends a foreign-architecture label pinned to that platform; prefer a native runner per architecture for regular builds.': 14,
   Configure: 15,
-  'Connect this runner to the Forgejo on this device. Saving applies on the next restart.': 16,
+  'Connect this runner to a Forgejo instance. Saving applies on the next restart.': 16,
   Saved: 17,
   'Runner configuration saved. Restart the service to apply.': 18,
-  'Forgejo is not yet reachable on the internal network. The runner will connect once its Forgejo dependency is running.': 19,
+  'Forgejo URL': 19,
   'The runner is not running': 20,
-  'Forgejo Actions must be enabled for Forgejo Runner to run jobs.': 21,
+  'The address of your Forgejo instance, for example https://git.example.com. The default, http://forgejo.startos:3000, reaches the Forgejo package installed on this device.': 21,
   'Forgejo no longer recognizes this runner. Create a new runner in Forgejo, enter its UUID and token in the Configure action, then restart this service.': 22,
+  'Must start with http:// or https://': 23,
 }
 
 export type I18nKey = keyof typeof dict

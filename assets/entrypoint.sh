@@ -39,7 +39,7 @@ done
 # health check can report 'needs config' instead of crash-looping.
 if [ -z "$INSTANCE_URL" ] || [ -z "$RUNNER_UUID" ] || [ -z "$RUNNER_TOKEN" ]; then
   echo "forgejo-runner: not configured. Run the 'Configure' action with the" \
-       "runner UUID + token from Forgejo's 'Create new Runner' page, then" \
+       "Forgejo URL plus the runner UUID + token from Forgejo's 'Create new Runner' page, then" \
        "restart this service." >&2
   exec sleep infinity
 fi
