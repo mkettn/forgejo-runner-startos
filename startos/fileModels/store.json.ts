@@ -3,6 +3,8 @@ import { sdk } from '../sdk'
 
 const shape = z
   .object({
+    // Address of the user's own Forgejo, e.g. https://git.example.com.
+    instanceUrl: z.string().catch(''),
     // Forgejo v12 connection-model credentials: the runner UUID + token shown on
     // the "Create new Runner" screen. These are declared into config.yaml's
     // server.connections block by the entrypoint — `register` is deprecated.

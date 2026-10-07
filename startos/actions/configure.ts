@@ -5,6 +5,21 @@ import { storeJson } from '../fileModels/store.json'
 const { InputSpec, Value } = sdk
 
 const inputSpec = InputSpec.of({
+  instanceUrl: Value.text({
+    name: i18n('Forgejo URL'),
+    description: i18n(
+      'The address of your Forgejo instance, for example https://git.example.com. It must be reachable from this device.',
+    ),
+    required: true,
+    default: null,
+    inputmode: 'url',
+    patterns: [
+      {
+        regex: '^https?://\\S+$',
+        description: i18n('Must start with http:// or https://'),
+      },
+    ],
+  }),
   runnerUuid: Value.text({
     name: i18n('Runner UUID'),
     description: i18n(
@@ -53,7 +68,7 @@ export const configure = sdk.Action.withInput(
   async ({ effects }) => ({
     name: i18n('Configure'),
     description: i18n(
-      'Connect this runner to the Forgejo on this device. Saving applies on the next restart.',
+      'Connect this runner to a Forgejo instance. Saving applies on the next restart.',
     ),
     warning: null,
     allowedStatuses: 'any',
@@ -67,6 +82,7 @@ export const configure = sdk.Action.withInput(
     const s = await storeJson.read().once()
     if (!s) return null
     return {
+      instanceUrl: s.instanceUrl || undefined,
       runnerUuid: s.runnerUuid || undefined,
       runnerToken: s.runnerToken || undefined,
       labels: s.labels,
@@ -77,6 +93,7 @@ export const configure = sdk.Action.withInput(
 
   async ({ effects, input }) => {
     await storeJson.merge(effects, {
+      instanceUrl: (input.instanceUrl ?? '').trim().replace(/\/+$/, ''),
       runnerUuid: input.runnerUuid ?? '',
       runnerToken: input.runnerToken ?? '',
       labels: input.labels ?? '',
